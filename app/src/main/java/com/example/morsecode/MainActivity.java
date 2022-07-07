@@ -5,6 +5,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
@@ -47,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
         cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent);
+            }
+        }
 
         // try to get access to a torch
         try {
@@ -164,5 +175,12 @@ public class MainActivity extends AppCompatActivity {
                 torch.MorseCode(message, tool);
             }
         });
+    }
+
+    private void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            insertedMessage.setText(sharedText);
+        }
     }
 }
