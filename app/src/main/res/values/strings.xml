@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MorseCode</string>
+
+    <!-- Main Page Strings -->
+    <string name="main_page_info">Enter the message:</string>
+    <string name="message">Message</string>
+    <string name="upload">Upload</string>
+
+    <!-- Settings Strings -->
+    <string name="flashlight">FLASHLIGHT</string>
+    <string name="vibrate">VIBRATE</string>
+    <string name="sound">SOUND</string>
+</resources>
