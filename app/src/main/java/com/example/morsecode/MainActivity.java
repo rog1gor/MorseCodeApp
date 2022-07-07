@@ -1,7 +1,9 @@
 package com.example.morsecode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Torch torch;
 
+    private Torch.Tool tool;
+
+    @SuppressLint("UseCompatLoadingForColorStateLists")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,91 @@ public class MainActivity extends AppCompatActivity {
 
         torch = new Torch(cameraID, cameraManager, vibrator);
 
+        tool = Torch.Tool.FLASHLIGHT;
+        buttonFlashlight.getBackground().setTint(
+                ResourcesCompat.getColor(
+                        getResources(),
+                        R.color.purple_200,
+                        null)
+        );
 
+        buttonFlashlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tool = Torch.Tool.FLASHLIGHT;
+
+                buttonFlashlight.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_200,
+                                null)
+                );
+                buttonVibrate.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+                buttonSound.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+            }
+        });
+
+        buttonVibrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tool = Torch.Tool.VIBRATION;
+
+                buttonFlashlight.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+                buttonVibrate.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_200,
+                                null)
+                );
+                buttonSound.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+            }
+        });
+
+        buttonSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tool = Torch.Tool.SOUND;
+
+                buttonFlashlight.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+                buttonVibrate.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_500,
+                                null)
+                );
+                buttonSound.getBackground().setTint(
+                        ResourcesCompat.getColor(
+                                getResources(),
+                                R.color.purple_200,
+                                null)
+                );
+            }
+        });
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 myToast.show();
 
                 // translate to Morse Code
-                torch.MorseCode(message, Torch.Tool.SOUND);
+                torch.MorseCode(message, tool);
             }
         });
     }
