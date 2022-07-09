@@ -22,9 +22,11 @@ public class LearningActivity extends AppCompatActivity {
     private void newPuzzle() {
         Random rand = new Random();
 
+        StringBuilder charList = new StringBuilder("abcdefghijklmnopqrstuvwxyz0123456789");
         for (Button button : guessButtons) {
-            String charList = "abcdefghijklmnopqrstuvwxyz0123456789";
-            button.setText(String.valueOf(charList.charAt(rand.nextInt(charList.length()))));
+            int chosen_index = rand.nextInt(charList.length());
+            button.setText(String.valueOf(charList.charAt(chosen_index)));
+            charList.deleteCharAt(chosen_index);
         }
         correctAnswer = guessButtons[rand.nextInt(guessButtons.length)].getId();
 
