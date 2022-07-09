@@ -3,6 +3,14 @@ Projekt Android 2022
 
 Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
 
+ ## Kod
+ 
+ Layout: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/res/layout
+ 
+ Kod w javie: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/java/com/example/morsecode
+ 
+ Plik .apk: https://github.com/rog1gor/MorseCodeApp/blob/master/MorseCode.apk
+
 ## Lista funkcjonalności
 1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie. Długość tekstu nie może przekroczyć 250 znaków, poprawność znaków jest sprawdzana.
 
@@ -22,14 +30,5 @@ Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
  1. Wysyłanie wiadomości odbywa się w osobnym wątku. Naciśnięcie przycisku START / STOP oraz przejście do aktywności Nauka przerywają wysyłanie.
  2. Handler wysyłania wiadomości jest przechowywany globalnie.
  
- 
- 
- ## Kod
- 
- layout: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/res/layout
- 
- kod w javie: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/java/com/example/morsecode
- 
- plik .apk: https://github.com/rog1gor/MorseCodeApp/blob/master/MorseCode.apk
  
  
