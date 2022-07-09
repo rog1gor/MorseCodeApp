@@ -4,13 +4,13 @@ Projekt Android 2022
 Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
 
 ## Lista funkcjonalności
-1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie.
+1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie. Długość tekstu nie może przekroczyć 250 znaków, poprawność znaków jest sprawdzana.
 
-    <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image3.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image4.jpg" width="200" height=auto />
+    <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image5.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image4.jpg" width="200" height=auto />
   
 2. Nauka rozpoznawania alfabetu Morse'a (przycisk Nauka!)
 
-   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image5.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image6.jpg" width="200" height=auto />
+   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image3.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeShare/blob/master/image6.jpg" width="200" height=auto />
   
 3. Dzielenie tekstu z innych aplikacji z aplikacją MorseCode
 
