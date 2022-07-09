@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class LearningActivity extends AppCompatActivity {
@@ -66,7 +67,8 @@ public class LearningActivity extends AppCompatActivity {
             else {
                 Toast.makeText(
                         getApplicationContext(),
-                        "Wrong! Correct answer: " + ((Button) findViewById(correctAnswer)).getText().toString(),
+                        "Wrong! Correct answer: " +
+                                ((Button) findViewById(correctAnswer)).getText().toString().toUpperCase(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
