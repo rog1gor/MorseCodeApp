@@ -1,5 +1,6 @@
 package com.example.morsecode;
 
+// Singleton for holding all static data structures.
 public class MorsApp {
     private static MorsApp mInstance= null;
 

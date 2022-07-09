@@ -21,6 +21,7 @@ public class Torch {
 
     private static final HashMap<Character, Boolean[]> signals;
 
+    // Durations of signals and breaks
     private static final int signal_unit = 250;
     private final int short_signal;
     private final int long_signal;
@@ -103,6 +104,7 @@ public class Torch {
         this.toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }
 
+    // Flashlight handlers.
     private void TurnFlashlightOn() {
         try {
             cameraManager.setTorchMode(cameraID, true);
@@ -121,6 +123,7 @@ public class Torch {
         }
     }
 
+    // Does a single signal with the current tool/
     private void signal(int signal_duration) throws InterruptedException {
         switch (tool) {
             case FLASHLIGHT:
@@ -163,6 +166,7 @@ public class Torch {
         Thread.sleep(50);
     }
 
+    // Signals one letter in morse code.
     private void MorseCodeLetter(char sign) throws InterruptedException {
         Boolean[] code = signals.get(Character.toLowerCase(sign));
         assert code != null;
@@ -182,6 +186,7 @@ public class Torch {
         Thread.sleep(this.word_interspace);
     }
 
+    // Handler for an outgoing message.
     public void MorseCode(String message) throws InterruptedException {
         this.tool = MorsApp.getInstance().getTool();
         for (char sign : message.toCharArray()) {

@@ -1,8 +1,8 @@
 package com.example.morsecode;
 
-import android.view.View;
 import android.widget.Button;
 
+// Class wrapping the buttons for choosing the current tool
 public class SettingButtons {
     private final int activeButtonColor;
     private final int passiveButtonColor;
@@ -19,28 +19,20 @@ public class SettingButtons {
         this.buttonVibrate = buttonVibrate;
         this.buttonSound = buttonSound;
 
-        buttonFlashlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
-                setActiveButton(buttonFlashlight);
-            }
+        // onClickListeners for changing the tool and color of the buttons
+        buttonFlashlight.setOnClickListener(view -> {
+            MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
+            setActiveButton(buttonFlashlight);
         });
 
-        buttonVibrate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MorsApp.getInstance().setTool(Torch.Tool.VIBRATION);
-                setActiveButton(buttonVibrate);
-            }
+        buttonVibrate.setOnClickListener(view -> {
+            MorsApp.getInstance().setTool(Torch.Tool.VIBRATION);
+            setActiveButton(buttonVibrate);
         });
 
-        buttonSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MorsApp.getInstance().setTool(Torch.Tool.SOUND);
-                setActiveButton(buttonSound);
-            }
+        buttonSound.setOnClickListener(view -> {
+            MorsApp.getInstance().setTool(Torch.Tool.SOUND);
+            setActiveButton(buttonSound);
         });
     }
 
