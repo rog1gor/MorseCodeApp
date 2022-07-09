@@ -15,7 +15,8 @@
         android:text="@string/learn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/purple_500"/>
 
     <TextView
         android:id="@+id/instructions"
@@ -72,6 +73,7 @@
         android:text="@string/upload"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:backgroundTint="@color/purple_500"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -19,6 +19,7 @@
             android:id="@+id/button_flashlight"
             style="@style/ButtonStyle"
             android:text="@string/flashlight"
+            android:backgroundTint="@color/purple_500"
 
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +30,7 @@
             android:id="@+id/button_vibrate"
             style="@style/ButtonStyle"
             android:text="@string/vibrate"
+            android:backgroundTint="@color/purple_500"
 
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="@id/button_flashlight"
@@ -39,6 +41,7 @@
             android:id="@+id/button_sound"
             style="@style/ButtonStyle"
             android:text="@string/sound"
+            android:backgroundTint="@color/purple_500"
 
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
