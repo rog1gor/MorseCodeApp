@@ -10,6 +10,8 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +19,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class MainActivity extends AppCompatActivity implements TextWatcher {
 
     private int activeButtonColor;
     private int passiveButtonColor;
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Torch.Tool tool;
 
     private Boolean sendingMessage;
+
+    private Boolean validMessage;
 
     private void setActiveButton(Button activeButton) {
         Button[] buttons = {
@@ -63,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
         // set private attributes
         Button uploadButton = findViewById(R.id.upload_button);
         insertedMessage = findViewById(R.id.insert_message);
+        insertedMessage.addTextChangedListener(this);
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
         sendingMessage = false;
+        validMessage= true;
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
         Intent intent = getIntent();
@@ -131,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!sendingMessage) {
+                if (!sendingMessage && validMessage) {
                     // get the message
                     String message = insertedMessage.getText().toString();
                     insertedMessage.setText("");
@@ -179,4 +189,23 @@ public class MainActivity extends AppCompatActivity {
             insertedMessage.setText(sharedText);
         }
     }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        Pattern p = Pattern.compile("[A-Za-z0-9 ]*");
+        Matcher m = p.matcher(s.toString());
+        if (m.matches()) {
+            this.validMessage = true;
+        }
+        else {
+            this.validMessage = false;
+            this.insertedMessage.setError("Invalid character used. Please use only english alphabet letters, digits and spaces.");
+        }
+    }
+
+    @Override
+    final public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* Don't care */ }
+
+    @Override
+    final public void onTextChanged(CharSequence s, int start, int before, int count) { /* Don't care */ }
 }
