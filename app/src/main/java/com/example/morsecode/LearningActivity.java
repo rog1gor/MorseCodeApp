@@ -7,8 +7,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -50,15 +50,26 @@ public class LearningActivity extends AppCompatActivity {
             findViewById(R.id.option4)
         };
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (correctAnswer == view.getId())
-                    correctGuesses++;
-                allGuesses++;
-                updateCount();
-                newPuzzle();
+        View.OnClickListener onClickListener = view -> {
+            if (correctAnswer == view.getId()) {
+                correctGuesses++;
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Correct!",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
+            else {
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Wrong! Correct answer: " + ((Button) findViewById(correctAnswer)).getText().toString(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            allGuesses++;
+            updateCount();
+            newPuzzle();
         };
 
         for (Button button : guessButtons)
@@ -82,15 +93,12 @@ public class LearningActivity extends AppCompatActivity {
         MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
         settingButtons.setActiveButton(findViewById(R.id.button_flashlight));
 
-        ((Button) findViewById(R.id.play_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    MorsApp.getInstance().getTorch().MorseCode(
-                            ((Button) findViewById(correctAnswer)).getText().toString()
-                    );
-                } catch (InterruptedException ignored) {}
-            }
+        findViewById(R.id.play_button).setOnClickListener(view -> {
+            try {
+                MorsApp.getInstance().getTorch().MorseCode(
+                        ((Button) findViewById(correctAnswer)).getText().toString()
+                );
+            } catch (InterruptedException ignored) {}
         });
 
         newPuzzle();

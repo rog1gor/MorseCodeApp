@@ -13,11 +13,8 @@ import android.os.Looper;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
@@ -91,65 +88,57 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         settingButtons.setActiveButton(findViewById(R.id.button_flashlight));
 
         Intent learning = new Intent(this, LearningActivity.class);
-        buttonLearning.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sendingMessage) {
-                    sendingThread.interrupt();
-                    sendingMessage = false;
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "Stopped uploading!",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-                startActivity(learning);
+        buttonLearning.setOnClickListener((view -> {
+            if (sendingMessage) {
+                sendingThread.interrupt();
+                sendingMessage = false;
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Stopped uploading!",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
+            startActivity(learning);
         }));
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validMessage) {
+        uploadButton.setOnClickListener(view -> {
+            if (!validMessage) {
+                return;
+            }
+            if (!sendingMessage) {
+                // get the message
+                String message = insertedMessage.getText().toString();
+                insertedMessage.setText("");
+                if (message.equals(""))
                     return;
-                }
-                if (!sendingMessage) {
-                    // get the message
-                    String message = insertedMessage.getText().toString();
-                    insertedMessage.setText("");
-                    if (message.equals(""))
-                        return;
 
-                    // translate to Morse Code
-                    sendingThread = new Thread(new Runnable() {
-                        public void run() {
-                            Looper.prepare();
+                // translate to Morse Code
+                sendingThread = new Thread(() -> {
+                    Looper.prepare();
 
-                            try {
-                                MorsApp.getInstance().getTorch().MorseCode(message);
-                                sendingMessage = false;
-                                Toast.makeText(
-                                        getApplicationContext(),
-                                        "Finished uploading!",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            } catch (InterruptedException ignored) {}
+                    try {
+                        MorsApp.getInstance().getTorch().MorseCode(message);
+                        sendingMessage = false;
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Finished uploading!",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    } catch (InterruptedException ignored) {}
 
-                            Looper.loop();
-                        }
-                    });
-                    sendingMessage = true;
-                    sendingThread.start();
-                }
-                else {
-                    sendingThread.interrupt();
-                    sendingMessage = false;
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "Stopped uploading!",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
+                    Looper.loop();
+                });
+                sendingMessage = true;
+                sendingThread.start();
+            }
+            else {
+                sendingThread.interrupt();
+                sendingMessage = false;
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Stopped uploading!",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
