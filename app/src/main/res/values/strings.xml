@@ -6,6 +6,9 @@
     <string name="message">Message</string>
     <string name="upload">Start / Stop</string>
     <string name="learn">Learn!</string>
+    <string name="stopped_uploading">Stopped uploading!</string>
+    <string name="finished_uploading">Finished uploading!</string>
+    <string name="invalid_char">Invalid character used. Please use only english alphabet letters, digits and spaces</string>
 
     <!-- Settings Strings -->
     <string name="flashlight">FLASHLIGHT</string>
@@ -16,4 +19,10 @@
     <string name="score">0 / 0</string>
     <string name="play">PLAY</string>
     <string name="choose">Choose an answer:</string>
+    <string name="correct">Correct!</string>
+    <string name="wrong">Wrong! Correct answer: </string>
+
+
+
+
 </resources>

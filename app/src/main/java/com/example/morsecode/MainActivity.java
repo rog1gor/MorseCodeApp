@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 sendingMessage = false;
                 Toast.makeText(
                         getApplicationContext(),
-                        "Stopped uploading!",
+                        getResources().getString(R.string.stopped_uploading),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                         sendingMessage = false;
                         Toast.makeText(
                                 getApplicationContext(),
-                                "Finished uploading!",
+                                getResources().getString(R.string.finished_uploading),
                                 Toast.LENGTH_SHORT
                         ).show();
                     } catch (InterruptedException ignored) {}
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 sendingMessage = false;
                 Toast.makeText(
                         getApplicationContext(),
-                        "Stopped uploading!",
+                        getResources().getString(R.string.stopped_uploading),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         }
         else {
             this.validMessage = false;
-            this.insertedMessage.setError("Invalid character used. Please use only english alphabet letters, digits and spaces.");
+            this.insertedMessage.setError(getResources().getString(R.string.invalid_char));
         }
     }
 

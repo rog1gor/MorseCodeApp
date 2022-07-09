@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MorseCode</string>
+
+    <!-- Main Page Strings -->
+    <string name="main_page_info">Wpisz wiadomość:</string>
+    <string name="message">Wiadomość</string>
+    <string name="upload">Start / Stop</string>
+    <string name="learn">Nauka!</string>
+    <string name="stopped_uploading">Wysyłanie zakończone!</string>
+    <string name="finished_uploading">Wysyłanie przerwane!</string>
+    <string name="invalid_char">Użyto niedozowlonego znaku. Proszę, używaj tylko liter alfabetu angielskiego, cyfr i spacji.</string>
+
+    <!-- Settings Strings -->
+    <string name="flashlight">LATARKA</string>
+    <string name="vibrate">WIBRACJA</string>
+    <string name="sound">DŹWIĘK</string>
+
+    <!-- Learning -->
+    <string name="score">0 / 0</string>
+    <string name="play">GRAJ</string>
+    <string name="choose">Wybierz odpowiedź:</string>
+    <string name="correct">Dobrze!</string>
+    <string name="wrong">Źle! Dobra odpowiedź: </string>
+
+
+
+
+</resources>

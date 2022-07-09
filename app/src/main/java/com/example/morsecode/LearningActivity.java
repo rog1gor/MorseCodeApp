@@ -55,14 +55,14 @@ public class LearningActivity extends AppCompatActivity {
                 correctGuesses++;
                 Toast.makeText(
                         getApplicationContext(),
-                        "Correct!",
+                        getResources().getString(R.string.correct),
                         Toast.LENGTH_SHORT
                 ).show();
             }
             else {
                 Toast.makeText(
                         getApplicationContext(),
-                        "Wrong! Correct answer: " + ((Button) findViewById(correctAnswer)).getText().toString(),
+                        getResources().getString(R.string.wrong) + ((Button) findViewById(correctAnswer)).getText().toString(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
