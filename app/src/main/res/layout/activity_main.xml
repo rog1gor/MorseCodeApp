@@ -37,6 +37,7 @@
 
         android:inputType="textShortMessage"
         android:textAlignment="center"
+        android:fontFamily="@font/montserrat"
         android:hint="@string/message"
         android:importantForAutofill="no"
 
@@ -114,7 +115,6 @@
         android:text="@string/upload"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:textStyle="italic"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
