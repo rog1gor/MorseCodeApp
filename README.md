@@ -1,5 +1,7 @@
 # MorseCodeShare
-Android 2022 Project
+Projekt Android 2022
+
+Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
 
 ## Lista funkcjonalności
 1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie.
