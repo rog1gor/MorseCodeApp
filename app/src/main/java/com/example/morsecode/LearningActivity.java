@@ -27,6 +27,8 @@ public class LearningActivity extends AppCompatActivity {
             button.setText(String.valueOf(charList.charAt(rand.nextInt(charList.length()))));
         }
         correctAnswer = guessButtons[rand.nextInt(guessButtons.length)].getId();
+
+        int value = MorsApp.getInstance().getValue();
     }
 
     @SuppressLint("DefaultLocale")
