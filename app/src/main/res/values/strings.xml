@@ -10,4 +10,9 @@
     <string name="flashlight">FLASHLIGHT</string>
     <string name="vibrate">VIBRATE</string>
     <string name="sound">SOUND</string>
+
+    <!-- Learning -->
+    <string name="score">0 / 0</string>
+    <string name="next">NEXT</string>
+    <string name="choose">Choose an answer:</string>
 </resources>
