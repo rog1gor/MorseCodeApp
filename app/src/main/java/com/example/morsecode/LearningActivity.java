@@ -1,10 +1,68 @@
 package com.example.morsecode;
 
-public class LearningActivity {
-    private final String charList = "abcdefghijklmnopqrstuvwxyz0123456789";
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.Random;
+
+public class LearningActivity extends AppCompatActivity {
 
     private int correctGuesses = 0;
     private int allGuesses = 0;
+    private int correctAnswer;
 
+    private Button[] guessButtons;
 
+    private void newPuzzle() {
+        Random rand = new Random();
+
+        for (Button button : guessButtons) {
+            String charList = "abcdefghijklmnopqrstuvwxyz0123456789";
+            button.setText(String.valueOf(charList.charAt(rand.nextInt(charList.length()))));
+        }
+        correctAnswer = guessButtons[rand.nextInt(guessButtons.length)].getId();
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void updateCount() {
+        TextView counter = findViewById(R.id.score);
+        counter.setText(String.format("%d/%d", correctGuesses, allGuesses));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_learning);
+
+         guessButtons = new Button[] {
+            findViewById(R.id.option1),
+            findViewById(R.id.option2),
+            findViewById(R.id.option3),
+            findViewById(R.id.option4)
+        };
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (correctAnswer == view.getId())
+                    correctGuesses++;
+                allGuesses++;
+                updateCount();
+                newPuzzle();
+            }
+        };
+
+        for (Button button : guessButtons)
+            button.setOnClickListener(onClickListener);
+
+        
+
+        newPuzzle();
+    }
 }

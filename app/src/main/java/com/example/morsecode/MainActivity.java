@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
     private Button buttonFlashlight;
     private Button buttonVibrate;
     private Button buttonSound;
-    private Button buttonLearning;
 
     private String cameraID;
 
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
-       // buttonLearning = findViewById(R.id.button_learning);
+        Button buttonLearning = findViewById(R.id.learn_button);
         sendingMessage = false;
         validMessage= true;
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -141,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             }
         });
 
-//        buttonLearning.setOnClickListener((new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent learning = new Intent(this, LearningActivity.class);
-//                startActivity(learning);
-//            }
-//        }));
+        Intent learning = new Intent(this, LearningActivity.class);
+        buttonLearning.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(learning);
+            }
+        }));
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override

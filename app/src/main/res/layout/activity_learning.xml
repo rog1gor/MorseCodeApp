@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/teal_200"
-    tools:context=".MainActivity">
+    tools:context=".LearningActivity">
 
     <include
         layout="@layout/setting_buttons"
@@ -67,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_margin="30dp"
-                android:backgroundTint="@color/purple_500"/>
+                android:backgroundTint="@color/purple_500"
+                android:text=""/>
 
             <Button
                 android:id="@+id/option2"
@@ -75,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_margin="30dp"
-                android:backgroundTint="@color/purple_500"/>
+                android:backgroundTint="@color/purple_500"
+                android:text=""/>
         </TableRow>
 
         <TableRow>
@@ -85,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_margin="30dp"
-                android:backgroundTint="@color/purple_500"/>
+                android:backgroundTint="@color/purple_500"
+                android:text=""/>
 
             <Button
                 android:id="@+id/option4"
@@ -93,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_margin="30dp"
-                android:backgroundTint="@color/purple_500"/>
+                android:backgroundTint="@color/purple_500"
+                android:text=""/>
         </TableRow>
     </TableLayout>
 
@@ -101,7 +105,7 @@
         android:id="@+id/next_button"
         style="@style/ButtonStyle"
 
-        android:text="@string/next"
+        android:text="@string/play"
         android:textAlignment="center"
         android:textSize="20sp"
         android:backgroundTint="@color/purple_500"
