@@ -26,10 +26,10 @@ Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
  
  ## Kod
  
- https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main
- 
  layout: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/res/layout
  
  kod w javie: https://github.com/rog1gor/MorseCodeApp/tree/master/app/src/main/java/com/example/morsecode
+ 
+ plik .apk: https://github.com/rog1gor/MorseCodeApp/blob/master/MorseCode.apk
  
  
