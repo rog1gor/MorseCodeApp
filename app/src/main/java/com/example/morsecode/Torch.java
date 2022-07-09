@@ -121,15 +121,17 @@ public class Torch {
         }
     }
 
-    private void ShortSignal() {
+    private void signal(int signal_duration) throws InterruptedException {
         switch (tool) {
             case FLASHLIGHT:
                 TurnFlashlightOn();
 
                 try {
-                    Thread.sleep(this.short_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(signal_duration);
+                }
+                catch (InterruptedException e) {
+                    TurnFlashlightOff();
+                    throw new InterruptedException();
                 }
 
                 TurnFlashlightOff();
@@ -139,124 +141,48 @@ public class Torch {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(
                             VibrationEffect.createOneShot(
-                                    this.short_signal, VibrationEffect.DEFAULT_AMPLITUDE
+                                    signal_duration, VibrationEffect.DEFAULT_AMPLITUDE
                             )
                     );
                 } else {
                     //deprecated in API 26
-                    vibrator.vibrate(this.short_signal);
+                    vibrator.vibrate(signal_duration);
                 }
 
-                try {
-                    Thread.sleep(this.short_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                Thread.sleep(signal_duration);
                 break;
 
             case SOUND:
-                toneGenerator.startTone(ToneGenerator.TONE_CDMA_DIAL_TONE_LITE, this.short_signal);
+                toneGenerator.startTone(ToneGenerator.TONE_CDMA_DIAL_TONE_LITE, signal_duration);
 
-                try {
-                    Thread.sleep(this.short_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                Thread.sleep(signal_duration);
                 break;
         }
 
         // adding sleep so that the morse code is more readable
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(50);
     }
 
-    private void LongSignal() {
-        switch (tool) {
-            case FLASHLIGHT:
-                TurnFlashlightOn();
-
-                try {
-                    Thread.sleep(this.long_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                TurnFlashlightOff();
-
-                break;
-
-            case VIBRATION:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(
-                            VibrationEffect.createOneShot(
-                                    this.long_signal, VibrationEffect.DEFAULT_AMPLITUDE
-                            )
-                    );
-                } else {
-                    //deprecated in API 26
-                    vibrator.vibrate(this.long_signal);
-                }
-
-                try {
-                    Thread.sleep(this.long_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                break;
-
-            case SOUND:
-                toneGenerator.startTone(ToneGenerator.TONE_CDMA_DIAL_TONE_LITE, this.long_signal);
-
-                try {
-                    Thread.sleep(this.long_signal);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                break;
-        }
-        // adding sleep so that the morse code is more readable
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void MorseCodeLetter(char sign) {
+    private void MorseCodeLetter(char sign) throws InterruptedException {
         Boolean[] code = signals.get(Character.toLowerCase(sign));
         assert code != null;
-        for (Boolean signal : code) {
-            if (signal)
-                LongSignal();
+        for (Boolean duration : code) {
+            if (duration)
+                signal(this.long_signal);
             else
-                ShortSignal();
+                signal(this.short_signal);
         }
     }
 
-    private void MorseCodeAfterSign() {
-        try {
-            Thread.sleep(this.sign_interspace);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    private void MorseCodeAfterSign() throws InterruptedException {
+        Thread.sleep(this.sign_interspace);
     }
 
-    private void MorseCodeBlank() {
-        try {
-            Thread.sleep(this.word_interspace);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    private void MorseCodeBlank() throws InterruptedException {
+        Thread.sleep(this.word_interspace);
     }
 
-    public void MorseCode(String message, Tool selectedTool) {
+    public void MorseCode(String message, Tool selectedTool) throws InterruptedException {
         this.tool = selectedTool;
         for (char sign : message.toCharArray()) {
             if (sign == ' ') {
@@ -268,5 +194,4 @@ public class Torch {
             }
         }
     }
-
 }

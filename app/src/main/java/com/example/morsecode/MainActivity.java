@@ -19,21 +19,23 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button uploadButton;
     private EditText insertedMessage;
 
     private Button buttonFlashlight;
     private Button buttonVibrate;
     private Button buttonSound;
 
-    private CameraManager cameraManager;
     private String cameraID;
+
+    private Thread sendingThread;
 
     Vibrator vibrator;
 
     private Torch torch;
 
     private Torch.Tool tool;
+
+    private Boolean sendingMessage;
 
     @SuppressLint("UseCompatLoadingForColorStateLists")
     @Override
@@ -42,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // set private attributes
-        uploadButton = findViewById(R.id.upload_button);
+        Button uploadButton = findViewById(R.id.upload_button);
         insertedMessage = findViewById(R.id.insert_message);
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
-        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        sendingMessage = false;
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -160,19 +163,44 @@ public class MainActivity extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get the message
-                String message = insertedMessage.getText().toString();
-                insertedMessage.setText("");
+                if (!sendingMessage) {
+                    // get the message
+                    String message = insertedMessage.getText().toString();
+                    insertedMessage.setText("");
+                    if (message.equals(""))
+                        return;
 
-                // inform user that the message was uploaded correctly
-                Toast myToast = Toast.makeText(
-                        getApplicationContext(),
-                        "Message Uploaded Correctly!",
-                        Toast.LENGTH_SHORT);
-                myToast.show();
+                    // inform user that the message was uploaded correctly
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Message uploaded successfully!",
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-                // translate to Morse Code
-                torch.MorseCode(message, tool);
+                    // translate to Morse Code
+                    sendingThread = new Thread(new Runnable() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void run() {
+                            try {
+                                torch.MorseCode(message, tool);
+                                sendingMessage = false;
+                                uploadButton.setText("Upload");
+                            } catch (InterruptedException ignored) {}
+                        }
+                    });
+                    sendingThread.start();
+                }
+                else {
+                    sendingThread.interrupt();
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Stopped uploading!",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+                sendingMessage = !sendingMessage;
+                uploadButton.setText((sendingMessage ? "Stop" : "Upload"));
             }
         });
     }
