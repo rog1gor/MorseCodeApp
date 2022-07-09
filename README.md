@@ -20,4 +20,16 @@ Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
  
  ## Dodatkowe uwagi
  1. Wysyłanie wiadomości odbywa się w osobnym wątku. Naciśnięcie przycisku START / STOP oraz przejście do aktywności Nauka przerywają wysyłanie.
+ 2. Handler wysyłania wiadomości jest przechowywany globalnie.
+ 
+ 
+ 
+ ## Kod
+ 
+ https://github.com/rog1gor/MorseCodeShare/tree/master/app/src/main
+ 
+ layout: https://github.com/rog1gor/MorseCodeShare/tree/master/app/src/main/res/layout
+ 
+ kod w javie: https://github.com/rog1gor/MorseCodeShare/tree/master/app/src/main/java/com/example/morsecode
+ 
  
