@@ -5,6 +5,7 @@
     <string name="main_page_info">Enter the message:</string>
     <string name="message">Message</string>
     <string name="upload">Start / Stop</string>
+    <string name="learn">Learn!</string>
 
     <!-- Settings Strings -->
     <string name="flashlight">FLASHLIGHT</string>
