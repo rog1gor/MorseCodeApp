@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
     private Button buttonFlashlight;
     private Button buttonVibrate;
     private Button buttonSound;
+    private Button buttonLearning;
 
     private String cameraID;
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
+        buttonLearning = findViewById(R.id.button_learning);
         sendingMessage = false;
         validMessage= true;
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -95,12 +98,12 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        torch = new Torch(cameraID, cameraManager, vibrator);
 
         // getting access to the vibrator
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        torch = new Torch(cameraID, cameraManager, vibrator);
 
-         activeButtonColor = ResourcesCompat.getColor(
+        activeButtonColor = ResourcesCompat.getColor(
                 getResources(),
                 R.color.purple_200,
                 null
@@ -138,6 +141,14 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             }
         });
 
+        buttonLearning.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             //   Intent learning = new Intent(this, LearningActivity.class);
+             //   startActivity(learning);
+            }
+        }));
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,37 +159,36 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                     if (message.equals(""))
                         return;
 
-                    // inform user that the message was uploaded correctly
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "Message uploaded successfully!",
-                            Toast.LENGTH_SHORT
-                    ).show();
-
                     // translate to Morse Code
                     sendingThread = new Thread(new Runnable() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
                         public void run() {
+                            Looper.prepare();
+
                             try {
                                 torch.MorseCode(message, tool);
                                 sendingMessage = false;
-                                uploadButton.setText("Upload");
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        "Finished uploading!",
+                                        Toast.LENGTH_SHORT
+                                ).show();
                             } catch (InterruptedException ignored) {}
+
+                            Looper.loop();
                         }
                     });
+                    sendingMessage = true;
                     sendingThread.start();
                 }
                 else {
                     sendingThread.interrupt();
+                    sendingMessage = false;
                     Toast.makeText(
                             getApplicationContext(),
                             "Stopped uploading!",
                             Toast.LENGTH_SHORT
                     ).show();
                 }
-                sendingMessage = !sendingMessage;
-                uploadButton.setText((sendingMessage ? "Stop" : "Upload"));
             }
         });
     }

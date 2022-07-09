@@ -4,9 +4,19 @@
     <!-- Main Page Strings -->
     <string name="main_page_info">Enter the message:</string>
     <string name="message">Message</string>
+<<<<<<< HEAD
     <string name="upload">Upload</string>
+=======
+    <string name="upload">Start / Stop</string>
+
+>>>>>>> 07cb909b9ce2e8828edf4296e2738a9c66a50300
     <!-- Settings Strings -->
     <string name="flashlight">FLASHLIGHT</string>
     <string name="vibrate">VIBRATE</string>
     <string name="sound">SOUND</string>
+
+    <!-- Learning -->
+    <string name="score">0 / 0</string>
+    <string name="next">NEXT</string>
+    <string name="choose">Choose an answer:</string>
 </resources>
