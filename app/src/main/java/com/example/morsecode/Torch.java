@@ -9,6 +9,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 import java.util.HashMap;
+import java.lang.*;
 
 public class Torch {
 
@@ -33,43 +34,13 @@ public class Torch {
 
     Vibrator vibrator;
 
-    private ToneGenerator toneGenerator;
+    private final ToneGenerator toneGenerator;
 
     static {
         HashMap<Character, Boolean[]> signSignals = new HashMap<>();
         // false - short signal, true - long signal
 
-        // capital letters
-        {
-            signSignals.put('A', new Boolean[]{false, true});
-            signSignals.put('B', new Boolean[]{true, false, false, false});
-            signSignals.put('C', new Boolean[]{true, false, true, false});
-            signSignals.put('D', new Boolean[]{true, false, false});
-            signSignals.put('E', new Boolean[]{false});
-            signSignals.put('F', new Boolean[]{false, false, true, false});
-            signSignals.put('G', new Boolean[]{true, true, false});
-            signSignals.put('H', new Boolean[]{false, false, false, false});
-            signSignals.put('I', new Boolean[]{false, false});
-            signSignals.put('J', new Boolean[]{false, true, true, true});
-            signSignals.put('K', new Boolean[]{true, false, true});
-            signSignals.put('L', new Boolean[]{false, true, false, false});
-            signSignals.put('M', new Boolean[]{true, true});
-            signSignals.put('N', new Boolean[]{true, false});
-            signSignals.put('O', new Boolean[]{true, true, true});
-            signSignals.put('P', new Boolean[]{false, true, true, false});
-            signSignals.put('Q', new Boolean[]{true, true, false, true});
-            signSignals.put('R', new Boolean[]{false, true, false});
-            signSignals.put('S', new Boolean[]{false, false, false});
-            signSignals.put('T', new Boolean[]{true});
-            signSignals.put('U', new Boolean[]{false, false, true});
-            signSignals.put('V', new Boolean[]{false, false, false, true});
-            signSignals.put('W', new Boolean[]{false, true, true});
-            signSignals.put('X', new Boolean[]{true, false, false, true});
-            signSignals.put('Y', new Boolean[]{true, false, true, true});
-            signSignals.put('Z', new Boolean[]{true, true, false, false});
-        }
-
-        // small letters
+        // letters
         {
             signSignals.put('a', new Boolean[]{false, true});
             signSignals.put('b', new Boolean[]{true, false, false, false});
@@ -117,10 +88,10 @@ public class Torch {
     }
 
     Torch(String cameraID, CameraManager cameraManager, Vibrator vibrator) {
-        this.short_signal = this.signal_unit;
-        this.long_signal = 3 * this.signal_unit;
-        this.sign_interspace = 3 * this.signal_unit;
-        this.word_interspace = 7 * this.signal_unit;
+        this.short_signal = signal_unit;
+        this.long_signal = 3 * signal_unit;
+        this.sign_interspace = 3 * signal_unit;
+        this.word_interspace = 7 * signal_unit;
 
         this.tool = Tool.FLASHLIGHT;
 
@@ -259,7 +230,7 @@ public class Torch {
     }
 
     private void MorseCodeLetter(char sign) {
-        Boolean[] code = signals.get(sign);
+        Boolean[] code = signals.get(Character.toLowerCase(sign));
         assert code != null;
         for (Boolean signal : code) {
             if (signal)
