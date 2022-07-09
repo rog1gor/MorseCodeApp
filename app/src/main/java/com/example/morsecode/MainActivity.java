@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int activeButtonColor;
+    private int passiveButtonColor;
+
     private EditText insertedMessage;
 
     private Button buttonFlashlight;
@@ -36,6 +39,20 @@ public class MainActivity extends AppCompatActivity {
     private Torch.Tool tool;
 
     private Boolean sendingMessage;
+
+    private void setActiveButton(Button activeButton) {
+        Button[] buttons = {
+                this.buttonFlashlight,
+                this.buttonVibrate,
+                this.buttonSound
+        };
+
+        for (Button button : buttons) {
+            button.getBackground().setTint(
+                (button.equals(activeButton) ? activeButtonColor : passiveButtonColor)
+            );
+        }
+    }
 
     @SuppressLint("UseCompatLoadingForColorStateLists")
     @Override
@@ -68,43 +85,30 @@ public class MainActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        torch = new Torch(cameraID, cameraManager, vibrator);
 
         // getting access to the vibrator
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        torch = new Torch(cameraID, cameraManager, vibrator);
+         activeButtonColor = ResourcesCompat.getColor(
+                getResources(),
+                R.color.purple_200,
+                null
+        );
+         passiveButtonColor = ResourcesCompat.getColor(
+                getResources(),
+                R.color.purple_500,
+                null
+        );
 
         tool = Torch.Tool.FLASHLIGHT;
-        buttonFlashlight.getBackground().setTint(
-                ResourcesCompat.getColor(
-                        getResources(),
-                        R.color.purple_200,
-                        null)
-        );
+        setActiveButton(buttonFlashlight);
 
         buttonFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.FLASHLIGHT;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
+                setActiveButton(buttonFlashlight);
             }
         });
 
@@ -112,25 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.VIBRATION;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
+                setActiveButton(buttonVibrate);
             }
         });
 
@@ -138,25 +124,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.SOUND;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
+                setActiveButton(buttonSound);
             }
         });
 
