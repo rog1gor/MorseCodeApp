@@ -152,7 +152,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!sendingMessage && validMessage) {
+                if (!validMessage) {
+                    return;
+                }
+                if (!sendingMessage) {
                     // get the message
                     String message = insertedMessage.getText().toString();
                     insertedMessage.setText("");
