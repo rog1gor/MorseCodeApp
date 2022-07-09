@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -138,37 +139,36 @@ public class MainActivity extends AppCompatActivity {
                     if (message.equals(""))
                         return;
 
-                    // inform user that the message was uploaded correctly
-                    Toast.makeText(
-                            getApplicationContext(),
-                            "Message uploaded successfully!",
-                            Toast.LENGTH_SHORT
-                    ).show();
-
                     // translate to Morse Code
                     sendingThread = new Thread(new Runnable() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
                         public void run() {
+                            Looper.prepare();
+
                             try {
                                 torch.MorseCode(message, tool);
                                 sendingMessage = false;
-                                uploadButton.setText("Upload");
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        "Finished uploading!",
+                                        Toast.LENGTH_SHORT
+                                ).show();
                             } catch (InterruptedException ignored) {}
+
+                            Looper.loop();
                         }
                     });
+                    sendingMessage = true;
                     sendingThread.start();
                 }
                 else {
                     sendingThread.interrupt();
+                    sendingMessage = false;
                     Toast.makeText(
                             getApplicationContext(),
                             "Stopped uploading!",
                             Toast.LENGTH_SHORT
                     ).show();
                 }
-                sendingMessage = !sendingMessage;
-                uploadButton.setText((sendingMessage ? "Stop" : "Upload"));
             }
         });
     }

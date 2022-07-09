@@ -4,7 +4,7 @@
     <!-- Main Page Strings -->
     <string name="main_page_info">Enter the message:</string>
     <string name="message">Message</string>
-    <string name="upload">Upload</string>
+    <string name="upload">Start / Stop</string>
 
     <!-- Settings Strings -->
     <string name="flashlight">FLASHLIGHT</string>
