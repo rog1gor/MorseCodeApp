@@ -19,21 +19,40 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button uploadButton;
+    private int activeButtonColor;
+    private int passiveButtonColor;
+
     private EditText insertedMessage;
 
     private Button buttonFlashlight;
     private Button buttonVibrate;
     private Button buttonSound;
 
-    private CameraManager cameraManager;
     private String cameraID;
+
+    private Thread sendingThread;
 
     Vibrator vibrator;
 
     private Torch torch;
 
     private Torch.Tool tool;
+
+    private Boolean sendingMessage;
+
+    private void setActiveButton(Button activeButton) {
+        Button[] buttons = {
+                this.buttonFlashlight,
+                this.buttonVibrate,
+                this.buttonSound
+        };
+
+        for (Button button : buttons) {
+            button.getBackground().setTint(
+                (button.equals(activeButton) ? activeButtonColor : passiveButtonColor)
+            );
+        }
+    }
 
     @SuppressLint("UseCompatLoadingForColorStateLists")
     @Override
@@ -42,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // set private attributes
-        uploadButton = findViewById(R.id.upload_button);
+        Button uploadButton = findViewById(R.id.upload_button);
         insertedMessage = findViewById(R.id.insert_message);
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
-        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        sendingMessage = false;
+        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -65,43 +85,30 @@ public class MainActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        torch = new Torch(cameraID, cameraManager, vibrator);
 
         // getting access to the vibrator
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        torch = new Torch(cameraID, cameraManager, vibrator);
+         activeButtonColor = ResourcesCompat.getColor(
+                getResources(),
+                R.color.purple_200,
+                null
+        );
+         passiveButtonColor = ResourcesCompat.getColor(
+                getResources(),
+                R.color.purple_500,
+                null
+        );
 
         tool = Torch.Tool.FLASHLIGHT;
-        buttonFlashlight.getBackground().setTint(
-                ResourcesCompat.getColor(
-                        getResources(),
-                        R.color.purple_200,
-                        null)
-        );
+        setActiveButton(buttonFlashlight);
 
         buttonFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.FLASHLIGHT;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
+                setActiveButton(buttonFlashlight);
             }
         });
 
@@ -109,25 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.VIBRATION;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
+                setActiveButton(buttonVibrate);
             }
         });
 
@@ -135,44 +124,51 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tool = Torch.Tool.SOUND;
-
-                buttonFlashlight.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonVibrate.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_500,
-                                null)
-                );
-                buttonSound.getBackground().setTint(
-                        ResourcesCompat.getColor(
-                                getResources(),
-                                R.color.purple_200,
-                                null)
-                );
+                setActiveButton(buttonSound);
             }
         });
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get the message
-                String message = insertedMessage.getText().toString();
-                insertedMessage.setText("");
+                if (!sendingMessage) {
+                    // get the message
+                    String message = insertedMessage.getText().toString();
+                    insertedMessage.setText("");
+                    if (message.equals(""))
+                        return;
 
-                // inform user that the message was uploaded correctly
-                Toast myToast = Toast.makeText(
-                        getApplicationContext(),
-                        "Message Uploaded Correctly!",
-                        Toast.LENGTH_SHORT);
-                myToast.show();
+                    // inform user that the message was uploaded correctly
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Message uploaded successfully!",
+                            Toast.LENGTH_SHORT
+                    ).show();
 
-                // translate to Morse Code
-                torch.MorseCode(message, tool);
+                    // translate to Morse Code
+                    sendingThread = new Thread(new Runnable() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void run() {
+                            try {
+                                torch.MorseCode(message, tool);
+                                sendingMessage = false;
+                                uploadButton.setText("Upload");
+                            } catch (InterruptedException ignored) {}
+                        }
+                    });
+                    sendingThread.start();
+                }
+                else {
+                    sendingThread.interrupt();
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Stopped uploading!",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+                sendingMessage = !sendingMessage;
+                uploadButton.setText((sendingMessage ? "Stop" : "Upload"));
             }
         });
     }
