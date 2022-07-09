@@ -3,6 +3,7 @@ package com.example.morsecode;
 import android.view.View;
 import android.widget.Button;
 
+// Class wrapping the buttons for choosing the current tool
 public class SettingButtons {
     private final int activeButtonColor;
     private final int passiveButtonColor;
@@ -19,6 +20,7 @@ public class SettingButtons {
         this.buttonVibrate = buttonVibrate;
         this.buttonSound = buttonSound;
 
+        // onClickListeners for changing the tool and color of the buttons
         buttonFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

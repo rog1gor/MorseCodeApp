@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             }
         }
 
+        // Declaration of the buttons for choosing the current tool.
         SettingButtons settingButtons = new SettingButtons(
                 ResourcesCompat.getColor(
                         getResources(),
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 findViewById(R.id.button_sound)
         );
 
-        // try to get access to a torch
+        // Try to get access to the flashlight.
         String cameraID = "";
         try {
             cameraID = cameraManager.getCameraIdList()[0];
@@ -80,13 +81,14 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             e.printStackTrace();
         }
 
-        // getting access to the vibrator
+        // Get access to the vibrator.
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         MorsApp.getInstance().setTorch(new Torch(cameraID, cameraManager, vibrator));
 
         MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
         settingButtons.setActiveButton(findViewById(R.id.button_flashlight));
 
+        // Button handling the learning activity.
         Intent learning = new Intent(this, LearningActivity.class);
         buttonLearning.setOnClickListener((view -> {
             if (sendingMessage) {
@@ -101,18 +103,19 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             startActivity(learning);
         }));
 
+        // Button handling uploading a message.
         uploadButton.setOnClickListener(view -> {
             if (!validMessage) {
                 return;
             }
             if (!sendingMessage) {
-                // get the message
+                // Get the message.
                 String message = insertedMessage.getText().toString();
                 insertedMessage.setText("");
                 if (message.equals(""))
                     return;
 
-                // translate to Morse Code
+                // Translate to Morse Code in a different thread.
                 sendingThread = new Thread(() -> {
                     Looper.prepare();
 
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                                 Toast.LENGTH_SHORT
                         ).show();
                     } catch (InterruptedException ignored) {}
+                    // Stop if interrupted.
 
                     Looper.loop();
                 });
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 sendingThread.start();
             }
             else {
+                // Interrupt the current message.
                 sendingThread.interrupt();
                 sendingMessage = false;
                 Toast.makeText(
@@ -150,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         }
     }
 
+    // Validation that the message contains only the correct characters.
     @Override
     public void afterTextChanged(Editable s) {
         Pattern p = Pattern.compile("[A-Za-z0-9 ]*");

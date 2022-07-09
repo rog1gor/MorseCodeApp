@@ -21,12 +21,14 @@ public class LearningActivity extends AppCompatActivity {
     private Button[] guessButtons;
 
     private void newPuzzle() {
+        // Generates a new puzzle for the user by choosing possible answers randomly.
         Random rand = new Random();
 
         StringBuilder charList = new StringBuilder("abcdefghijklmnopqrstuvwxyz0123456789");
         for (Button button : guessButtons) {
             int chosen_index = rand.nextInt(charList.length());
             button.setText(String.valueOf(charList.charAt(chosen_index)));
+            // Makes sure not to choose the same answer more than once.
             charList.deleteCharAt(chosen_index);
         }
         correctAnswer = guessButtons[rand.nextInt(guessButtons.length)].getId();
@@ -34,6 +36,7 @@ public class LearningActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void updateCount() {
+        // Updates the score - " Correct guesses / All guesses ".
         TextView counter = findViewById(R.id.score);
         counter.setText(String.format("%d/%d", correctGuesses, allGuesses));
     }
@@ -50,6 +53,7 @@ public class LearningActivity extends AppCompatActivity {
             findViewById(R.id.option4)
         };
 
+        // onClickListener for the answer buttons.
         View.OnClickListener onClickListener = view -> {
             if (correctAnswer == view.getId()) {
                 correctGuesses++;
@@ -67,6 +71,7 @@ public class LearningActivity extends AppCompatActivity {
                 ).show();
             }
 
+            // Update count and generate a new puzzle.
             allGuesses++;
             updateCount();
             newPuzzle();
@@ -75,6 +80,7 @@ public class LearningActivity extends AppCompatActivity {
         for (Button button : guessButtons)
             button.setOnClickListener(onClickListener);
 
+        // Declaration of the buttons for choosing the current tool.
         SettingButtons settingButtons = new SettingButtons(
                 ResourcesCompat.getColor(
                         getResources(),
