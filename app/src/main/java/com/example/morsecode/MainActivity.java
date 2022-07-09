@@ -26,42 +26,13 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements TextWatcher {
 
-    private int activeButtonColor;
-    private int passiveButtonColor;
-
     private EditText insertedMessage;
 
-    private Button buttonFlashlight;
-    private Button buttonVibrate;
-    private Button buttonSound;
-
-    private String cameraID;
-
     private Thread sendingThread;
-
-    Vibrator vibrator;
-
-    private Torch torch;
-
-    private Torch.Tool tool;
 
     private Boolean sendingMessage;
 
     private Boolean validMessage;
-
-    private void setActiveButton(Button activeButton) {
-        Button[] buttons = {
-                this.buttonFlashlight,
-                this.buttonVibrate,
-                this.buttonSound
-        };
-
-        for (Button button : buttons) {
-            button.getBackground().setTint(
-                (button.equals(activeButton) ? activeButtonColor : passiveButtonColor)
-            );
-        }
-    }
 
     @SuppressLint("UseCompatLoadingForColorStateLists")
     @Override
@@ -73,9 +44,6 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         Button uploadButton = findViewById(R.id.upload_button);
         insertedMessage = findViewById(R.id.insert_message);
         insertedMessage.addTextChangedListener(this);
-        buttonFlashlight = findViewById(R.id.button_flashlight);
-        buttonVibrate = findViewById(R.id.button_vibrate);
-        buttonSound = findViewById(R.id.button_sound);
         Button buttonLearning = findViewById(R.id.learn_button);
         sendingMessage = false;
         validMessage= true;
@@ -91,7 +59,24 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             }
         }
 
+        SettingButtons settingButtons = new SettingButtons(
+                ResourcesCompat.getColor(
+                        getResources(),
+                        R.color.purple_200,
+                        null
+                ),
+                ResourcesCompat.getColor(
+                        getResources(),
+                        R.color.purple_500,
+                        null
+                ),
+                findViewById(R.id.button_flashlight),
+                findViewById(R.id.button_vibrate),
+                findViewById(R.id.button_sound)
+        );
+
         // try to get access to a torch
+        String cameraID = "";
         try {
             cameraID = cameraManager.getCameraIdList()[0];
         } catch (CameraAccessException e) {
@@ -99,51 +84,25 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         }
 
         // getting access to the vibrator
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        torch = new Torch(cameraID, cameraManager, vibrator);
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        MorsApp.getInstance().setTorch(new Torch(cameraID, cameraManager, vibrator));
 
-        activeButtonColor = ResourcesCompat.getColor(
-                getResources(),
-                R.color.purple_200,
-                null
-        );
-         passiveButtonColor = ResourcesCompat.getColor(
-                getResources(),
-                R.color.purple_500,
-                null
-        );
-
-        tool = Torch.Tool.FLASHLIGHT;
-        setActiveButton(buttonFlashlight);
-
-        buttonFlashlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tool = Torch.Tool.FLASHLIGHT;
-                setActiveButton(buttonFlashlight);
-            }
-        });
-
-        buttonVibrate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tool = Torch.Tool.VIBRATION;
-                setActiveButton(buttonVibrate);
-            }
-        });
-
-        buttonSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tool = Torch.Tool.SOUND;
-                setActiveButton(buttonSound);
-            }
-        });
+        MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
+        settingButtons.setActiveButton(findViewById(R.id.button_flashlight));
 
         Intent learning = new Intent(this, LearningActivity.class);
         buttonLearning.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sendingMessage) {
+                    sendingThread.interrupt();
+                    sendingMessage = false;
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Stopped uploading!",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
                 startActivity(learning);
             }
         }));
@@ -167,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                             Looper.prepare();
 
                             try {
-                                torch.MorseCode(message, tool);
+                                MorsApp.getInstance().getTorch().MorseCode(message);
                                 sendingMessage = false;
                                 Toast.makeText(
                                         getApplicationContext(),

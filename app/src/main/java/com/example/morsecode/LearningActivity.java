@@ -1,6 +1,7 @@
 package com.example.morsecode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ public class LearningActivity extends AppCompatActivity {
 
     private int correctGuesses = 0;
     private int allGuesses = 0;
-    private int correctAnswer;
+    private int correctAnswer = 0;
 
     private Button[] guessButtons;
 
@@ -29,8 +30,6 @@ public class LearningActivity extends AppCompatActivity {
             charList.deleteCharAt(chosen_index);
         }
         correctAnswer = guessButtons[rand.nextInt(guessButtons.length)].getId();
-
-        int value = MorsApp.getInstance().getValue();
     }
 
     @SuppressLint("DefaultLocale")
@@ -65,7 +64,34 @@ public class LearningActivity extends AppCompatActivity {
         for (Button button : guessButtons)
             button.setOnClickListener(onClickListener);
 
-        
+        SettingButtons settingButtons = new SettingButtons(
+                ResourcesCompat.getColor(
+                        getResources(),
+                        R.color.purple_200,
+                        null
+                ),
+                ResourcesCompat.getColor(
+                        getResources(),
+                        R.color.purple_500,
+                        null
+                ),
+                findViewById(R.id.button_flashlight),
+                findViewById(R.id.button_vibrate),
+                findViewById(R.id.button_sound)
+        );
+        MorsApp.getInstance().setTool(Torch.Tool.FLASHLIGHT);
+        settingButtons.setActiveButton(findViewById(R.id.button_flashlight));
+
+        ((Button) findViewById(R.id.play_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    MorsApp.getInstance().getTorch().MorseCode(
+                            ((Button) findViewById(correctAnswer)).getText().toString()
+                    );
+                } catch (InterruptedException ignored) {}
+            }
+        });
 
         newPuzzle();
     }

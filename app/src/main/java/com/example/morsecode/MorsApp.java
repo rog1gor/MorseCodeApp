@@ -3,22 +3,31 @@ package com.example.morsecode;
 public class MorsApp {
     private static MorsApp mInstance= null;
 
-    private int someImportantValue;
+    private Torch.Tool tool;
+    private Torch torch;
 
-    protected MorsApp(){}
+    protected MorsApp() {}
 
     public static synchronized MorsApp getInstance() {
-        if(null == mInstance){
+        if (null == mInstance) {
             mInstance = new MorsApp();
         }
         return mInstance;
     }
 
-    public int getValue() {
-        return someImportantValue;
+    public Torch.Tool getTool() {
+        return this.tool;
     }
 
-    public void setValue(int value) {
-        someImportantValue = value;
+    public void setTool(Torch.Tool tool) {
+        this.tool = tool;
+    }
+
+    public Torch getTorch() {
+        return this.torch;
+    }
+
+    public void setTorch(Torch torch) {
+        this.torch = torch;
     }
 }

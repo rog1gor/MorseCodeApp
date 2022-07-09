@@ -102,7 +102,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/next_button"
+        android:id="@+id/play_button"
         style="@style/ButtonStyle"
 
         android:text="@string/play"

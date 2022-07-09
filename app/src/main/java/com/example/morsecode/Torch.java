@@ -182,8 +182,8 @@ public class Torch {
         Thread.sleep(this.word_interspace);
     }
 
-    public void MorseCode(String message, Tool selectedTool) throws InterruptedException {
-        this.tool = selectedTool;
+    public void MorseCode(String message) throws InterruptedException {
+        this.tool = MorsApp.getInstance().getTool();
         for (char sign : message.toCharArray()) {
             if (sign == ' ') {
                 MorseCodeBlank();
