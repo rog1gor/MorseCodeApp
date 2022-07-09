@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonFlashlight;
     private Button buttonVibrate;
     private Button buttonSound;
+    private Button buttonLearning;
 
     private String cameraID;
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         buttonFlashlight = findViewById(R.id.button_flashlight);
         buttonVibrate = findViewById(R.id.button_vibrate);
         buttonSound = findViewById(R.id.button_sound);
+       // buttonLearning = findViewById(R.id.button_learning);
         sendingMessage = false;
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
@@ -86,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        torch = new Torch(cameraID, cameraManager, vibrator);
 
         // getting access to the vibrator
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        torch = new Torch(cameraID, cameraManager, vibrator);
 
-         activeButtonColor = ResourcesCompat.getColor(
+        activeButtonColor = ResourcesCompat.getColor(
                 getResources(),
                 R.color.purple_200,
                 null
@@ -128,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
                 setActiveButton(buttonSound);
             }
         });
+
+//        buttonLearning.setOnClickListener((new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent learning = new Intent(this, LearningActivity.class);
+//                startActivity(learning);
+//            }
+//        }));
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
