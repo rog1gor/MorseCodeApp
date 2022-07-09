@@ -12,11 +12,11 @@ Autorzy: Mateusz Sypniewski, Igor Kamiński, Maria Śmigielska
  Plik .apk: https://github.com/rog1gor/MorseCodeApp/blob/master/MorseCode.apk
 
 ## Lista funkcjonalności
-1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie. Długość tekstu nie może przekroczyć 250 znaków, poprawność znaków jest sprawdzana.
+1. Wysyłanie sygnałów alfabetem Morse'a za pomocą latarki, dźwięku lub wibracji. Wysyłanie może być przerwane w trakcie. Długość tekstu nie może przekroczyć 250 znaków, poprawność znaków jest sprawdzana. Za pomocą jednego z trzech przycisków można wybrać tryb przesłania wiadomości, a za pomocą przycisku START / STOP można zacząć / przerwać wysyłanie.
 
     <img src="https://github.com/rog1gor/MorseCodeApp/blob/master/image5.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeApp/blob/master/image4.jpg" width="200" height=auto />
   
-2. Nauka rozpoznawania alfabetu Morse'a (przycisk Nauka!)
+2. Nauka rozpoznawania alfabetu Morse'a (przycisk Nauka! (ang Learn!)). Aplikacja losuje znak do rozponania. Żeby odtworzyć znak należy użyć przyciusku GRAJ (ang PLAY).
 
    <img src="https://github.com/rog1gor/MorseCodeApp/blob/master/image3.jpg" width="200" height=auto />   <img src="https://github.com/rog1gor/MorseCodeApp/blob/master/image6.jpg" width="200" height=auto />
   
